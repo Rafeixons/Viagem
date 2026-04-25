@@ -6,15 +6,12 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 
-public class Viagem {
-    
-    
-    
+public class Viagem {   
     ArrayList<Viagem> v = new ArrayList<>();
 
     String nome;
     String dias;
-    String valor = "0";
+    String valor;
 
     LocalDate data;
     LocalDate hoje = LocalDate.now();
@@ -33,8 +30,14 @@ public class Viagem {
                     this.diasFalta = diasFalta;
             }
 
+    public Viagem() {
+    }
+      
+
 
     public void menu() {
+        
+        Viagem novaViagem = new Viagem();
 
         String[] opcoes = {"Planejar Viagem", "Sair"};
         int escolha = JOptionPane.showOptionDialog(
@@ -49,43 +52,41 @@ public class Viagem {
 
         if (escolha == 0) {
             do {
-                nome = JOptionPane.showInputDialog(null, "Qual o nome do viajante?");
-            } while (nome == null);
+                novaViagem.nome = JOptionPane.showInputDialog(null, "Qual o nome do viajante?");
+            } while (novaViagem.nome == null);
             do {
                 String entrada = JOptionPane.showInputDialog(null, "Qual a data da viagem? (dd/MM/yyyy)");
                 try {
-                    data = LocalDate.parse(entrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                    novaViagem.data = LocalDate.parse(entrada, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Data incorreta");
                 }                
                 // colocar looping pra data incorreta
-            } while (data == null);
-            if (data.isBefore(hoje)) {
+            } while (novaViagem.data == null);
+            if (novaViagem.data.isBefore(novaViagem.hoje)) {
                     JOptionPane.showMessageDialog(null, "A viagem já passou");
-                } else if (data.isEqual(hoje)) {
+                } else if (novaViagem.data.isEqual(novaViagem.hoje)) {
                     JOptionPane.showMessageDialog(null, "A viagem é hoje!!");
                 } else {
-                    diasFalta = ChronoUnit.DAYS.between(hoje, data);
-                    JOptionPane.showMessageDialog(null, "Faltam " + diasFalta + " para sua viageeem!");
+                    novaViagem.diasFalta = ChronoUnit.DAYS.between(novaViagem.hoje, novaViagem.data);
+                    JOptionPane.showMessageDialog(null, "Faltam " + novaViagem.diasFalta + " para sua viageeem!");
                 }
             do {
-                dias = JOptionPane.showInputDialog(null, "Planeja ficar quantos dias em viagem?");
-            } while (dias == null);
+                novaViagem.dias = JOptionPane.showInputDialog(null, "Planeja ficar quantos dias em viagem?");
+            } while (novaViagem.dias == null);
             do {
-                valor = JOptionPane.showInputDialog(null, "Qual o valor gasto por dia?");
-                valorI = Long.parseLong(valor);
+                novaViagem.valor = JOptionPane.showInputDialog(null, "Qual o valor gasto por dia?");
+                novaViagem.valorI = Long.parseLong(novaViagem.valor);
                 
-            } while (valor == null);
+            } while (novaViagem.valor == null);
 
-            JOptionPane.showMessageDialog(null, "Viagem cadastrada, obrigada por utilizar o nosso sistema!");
-
+            JOptionPane.showMessageDialog(null, "Viagem cadastrada.");
+                v.add(novaViagem);
             imprimir();
         } else if (escolha == 1) {
             JOptionPane.showMessageDialog(null, "Obrigada por utilizar o nosso sistema!");
-        }
+        }   
         
-        Viagem novaViagem = new Viagem(nome, data, dias, valor, diasFalta);
-        v.add(novaViagem);
     }
     
     
@@ -115,20 +116,19 @@ public class Viagem {
                 null,
                 imprimir,
                 imprimir[0]);
-        
-        String [] escolha = JOptionPane.showInputDialog(null, desejo, nome, desejo, icon, opcoes, diasFalta);
-
+       
         if (desejo == 0) {
+            String escolha = (String) JOptionPane.showInputDialog(null,"Escolha uma viagem cadastrada:","Viagens cadastradas",JOptionPane.QUESTION_MESSAGE,null,opcoes,opcoes[0]);
             for (Viagem viagem : v){
               if ((viagem.nome+"-"+viagem.data).equals(escolha));
               
-              JOptionPane.showMessageDialog(null, viagem.nome + " sua viagem será dia " + viagem.data);
+            JOptionPane.showMessageDialog(null, viagem.nome + " sua viagem será dia " + viagem.data);
             JOptionPane.showMessageDialog(null, "Dias de viagem: " + viagem.dias);
             JOptionPane.showMessageDialog(null, "Valor gasto em cada dia: " + viagem.valor);
             JOptionPane.showMessageDialog(null, "Valor total da viajem: " + total);
                 
             }
-
+                    
         } else if (desejo == 1) {
             menu();
         }
