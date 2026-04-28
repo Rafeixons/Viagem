@@ -103,9 +103,10 @@ public class Viagem {
         for(int i = 0; i < v.size(); i++){
             
             Viagem viagens = v.get(i);
+            opcoes[i] = viagens.nome + " - " + viagens.data;
             
-        }
-        
+        } 
+       
         String[] imprimir = {"Imprimir", "Planejar Viagem"};
         int desejo = JOptionPane.showOptionDialog(
                 null,
@@ -126,6 +127,8 @@ public class Viagem {
             JOptionPane.showMessageDialog(null, "Dias de viagem: " + viagem.dias);
             JOptionPane.showMessageDialog(null, "Valor gasto em cada dia: " + viagem.valor);
             JOptionPane.showMessageDialog(null, "Valor total da viajem: " + total);
+            
+            menu();
                 
             }
                     
